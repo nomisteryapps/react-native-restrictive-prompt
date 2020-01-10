@@ -7,24 +7,21 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "test-package": "npm pack && cd examples && yarn add ../react-native-simple-prompt-*.tgz"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/NewBieBR/react-native-simple-prompt.git"
-  },
   "keywords": [
     "React Native",
     "React",
-    "Container",
-    "View",
-    "Flex",
     "Typescript",
     "react-native",
     "react"
   ],
   "author": "Hung Arthur Dao",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NewBieBR/react-native-simple-prompt.git"
+  },
   "devDependencies": {
-    "@types/react": "16.9.11",
-    "@types/react-native": "0.60.22"
+    "@types/react": "^16.9.17",
+    "@types/react-native": "^0.60.30"
   }
 }

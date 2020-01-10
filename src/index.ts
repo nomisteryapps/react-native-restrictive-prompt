@@ -1,2 +1,2 @@
-import Prompt from "./Prompt";
+import Prompt from './Prompt';
 export default Prompt;

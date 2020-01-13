@@ -22,6 +22,11 @@ export interface PromptProps {
   onCancelPress?: () => void;
 }
 
+interface PromptOptions {
+  cancelable?: boolean;
+  hideOnSubmit?: boolean;
+}
+
 export interface PromptState {
   visible?: boolean;
   title?: string;
@@ -39,9 +44,15 @@ export default class Prompt extends React.Component<PromptProps, PromptState> {
     text?: string,
     callback?: (value: string) => void,
     buttons?: ButtonsArray,
+    options?: PromptOptions,
   ) {
     if (!GlobalPrompt) return;
-    GlobalPrompt.prompt(title, text, callback, buttons);
+    GlobalPrompt.prompt(title, text, callback, buttons, options);
+  }
+
+  static hide() {
+    if (!GlobalPrompt) return;
+    GlobalPrompt.hide();
   }
 
   state = {
@@ -49,7 +60,7 @@ export default class Prompt extends React.Component<PromptProps, PromptState> {
     title: '',
     text: '',
     inputValue: '',
-    buttons: [,],
+    buttons: [],
   };
 
   constructor(props) {
@@ -62,19 +73,37 @@ export default class Prompt extends React.Component<PromptProps, PromptState> {
     text?: string,
     callback?: (value: string) => void,
     buttons?: ButtonsArray,
+    options?: PromptOptions,
   ) {
-    if (!buttons)
-      buttons = [
+    let newButtons = buttons;
+    if (!newButtons) {
+      newButtons = [
         {
           text: 'OK',
           onPress: value => {
-            callback(value);
-            this.hide();
+            if (callback) callback(value);
+            if (
+              (options && options.hideOnSubmit === true) ||
+              options?.hideOnSubmit === undefined
+            ) {
+              this.hide();
+            }
           },
         },
         { text: 'Cancel', style: 'cancel' },
       ];
-    this.setState({inputValue: '', title, text, callback, buttons, visible: true });
+      if (options && options.cancelable === false) {
+        newButtons.pop();
+      }
+    }
+    this.setState({
+      inputValue: '',
+      title,
+      text,
+      callback,
+      buttons: newButtons,
+      visible: true,
+    });
   }
 
   public show() {
@@ -122,11 +151,14 @@ export default class Prompt extends React.Component<PromptProps, PromptState> {
                   let onPress = () => {
                     if (button.onPress) button.onPress(this.state.inputValue);
                   };
-                  if (!button.onPress && button.style === 'cancel')
+                  if (!button.onPress && button.style === 'cancel') {
                     onPress = () => {
                       this.hide();
-                      if (this.props.onCancelPress) this.props.onCancelPress();
+                      if (this.props.onCancelPress) {
+                        this.props.onCancelPress();
+                      }
                     };
+                  }
                   return (
                     <View
                       key={'button' + index}
@@ -135,7 +167,10 @@ export default class Prompt extends React.Component<PromptProps, PromptState> {
                         {
                           borderRightWidth:
                             index === 0 && buttons.length === 2 ? 1 : 0,
-                          borderBottomWidth: index < buttons.length ? 1 : 0,
+                          borderBottomWidth:
+                            index < buttons.length && buttons.length > 2
+                              ? 1
+                              : 0,
                         },
                       ]}
                     >
@@ -144,8 +179,8 @@ export default class Prompt extends React.Component<PromptProps, PromptState> {
                           style={[
                             styles.buttonText,
                             {
-                              // fontWeight:
-                              //   button.style === 'cancel' ? 'bold' : 'normal',
+                              fontWeight:
+                                button.style === 'cancel' ? '600' : 'normal',
                               color:
                                 button.style === 'destructive'
                                   ? 'rgb(255, 59, 48)'
@@ -210,6 +245,7 @@ const styles = StyleSheet.create({
     flex: 1,
     maxHeight: 50,
     borderColor: 'rgba(0, 0, 0, 0.1)',
+    borderWidth: 0,
   },
   button: {
     padding: 15,

@@ -90,7 +90,6 @@ export default class Prompt extends React.Component<PromptProps, PromptState> {
             }
           },
         },
-        { text: 'Cancel', style: 'cancel' },
       ];
       if (options && options.cancelable === false) {
         newButtons.pop();

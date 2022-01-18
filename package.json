@@ -1,6 +1,6 @@
 {
-  "name": "react-native-simple-prompt",
-  "version": "1.0.1",
+  "name": "react-native-simple-prompt-restrictive",
+  "version": "1.0.0",
   "description": "",
   "main": "src/index.ts",
   "scripts": {
@@ -18,7 +18,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NewBieBR/react-native-simple-prompt.git"
+    "url": "git+https://github.com/nomisteryapps/react-native-simple-prompt-restrictive.git"
   },
   "devDependencies": {
     "@types/react": "^16.9.17",

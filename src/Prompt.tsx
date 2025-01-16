@@ -79,7 +79,7 @@ export default class Prompt extends React.Component<PromptProps, PromptState> {
     if (!newButtons) {
       newButtons = [
         {
-          text: 'OK',
+          text: 'SAVE',
           onPress: value => {
             if (callback) callback(value);
             if (
@@ -136,6 +136,9 @@ export default class Prompt extends React.Component<PromptProps, PromptState> {
               <TextInput
                 onChangeText={inputValue => this.setState({ inputValue })}
                 value={inputValue}
+                autoCapitalize={"characters"}
+                maxLength={32}
+                autoFocus={true}
                 style={styles.textInput}
               />
             </View>
@@ -225,7 +228,7 @@ const styles = StyleSheet.create({
   titleLabel: {
     textAlign: 'center',
     fontWeight: '600',
-    fontSize: 16,
+    fontSize: 20,
   },
   textContainer: {
     paddingVertical: 10,

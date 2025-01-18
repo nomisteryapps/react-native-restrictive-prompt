@@ -135,8 +135,7 @@ export default class Prompt extends React.Component<PromptProps, PromptState> {
             <View style={styles.textInputContainer}>
               <TextInput
                 onChangeText={inputValue => this.setState({ inputValue })}
-                value={inputValue}
-                autoCapitalize={"characters"}
+                value={inputValue}               
                 maxLength={32}
                 autoFocus={true}
                 style={styles.textInput}
